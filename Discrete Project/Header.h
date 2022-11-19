@@ -100,7 +100,7 @@ class Graph {
 	
 	vector<Node> vertices;
 public:
-
+	static int count;
 	void addNode(Node newnode)
 	{
 		vertices.push_back(newnode);
@@ -125,6 +125,8 @@ public:
 
 	Node retNode(int v)
 	{
+		Node placeholder;
+		placeholder.setNodeid(-1);
 		for (int i = 0; i < vertices.size(); i++)
 		{
 				if (vertices.at(i).getNodeid() == v)
@@ -133,7 +135,7 @@ public:
 					break;
 				}
 	    }
-
+		return placeholder;
 	}
 
 	bool isVisited(vector<Node> array, Node n)
@@ -182,72 +184,239 @@ public:
 		}
 	}
 
-	void DFSUtil(int vv, vector<bool> &visited)
-	{
-		//vector<Node> visited;
-		//vector<bool> visited(4, false);
-		Node temp;
-		Node v = retNode(vv);
-		bool found=false;
-		stack<Node> s;
+	//void DFSUtil(int vv, vector<bool> &visited)
+	//{
+	//	//vector<Node> visited;
+	//	//vector<bool> visited(4, false);
+	//	Node temp;
+	//	Node v = retNode(vv);
+	//	bool found=false;
+	//	stack<Node> s;
+	//	s.push(v);
+	//	while (!s.empty())
+	//	{
+	//	    temp=s.top();
+	//		s.pop();
+
+	//		/*for (int i = 0; i < visited.size(); i++)
+	//		{
+	//			if (visited.at(i) == temp)
+	//			{
+	//				found = true;
+	//				break;
+	//			}
+
+	//		}*/
+
+	//		if (visited[temp.getNodeid()]==false)
+	//		{
+	//			cout << temp.getNodeid() << " ";
+	//			//visited.push_back(temp);
+	//			visited[temp.getNodeid()] = true;
+	//		}
+	//		
+	//		for (list<Node>::iterator it=temp.adjlist.begin();it!=temp.adjlist.end(); ++it)
+	//		{
+	//			if (visited[(*it).getNodeid()] == false)
+	//			{
+	//				v = retNode((*it).getNodeid());
+	//				s.push(v);
+	//			}
+	//		
+	//		}
+	//	}
+
+	//}
+
+	//void DFS()
+	//{
+	//	int length = vertices.size();
+	//	vector<bool>visited(length, false);
+	//	for (int i = 0; i < vertices.size(); i++)
+	//	{
+	//		if (!visited[i])
+	//		{
+	//			DFSUtil(i, visited);
+	//		}
+	//	}
+	//}
+
+	//int getIndex(vector<Node> v, Node K)
+	//{
+	//	auto it = find(v.begin(), v.end(), K);
+
+	//	// If element was found
+	//	if (it != v.end())
+	//	{
+
+	//		// calculating the index
+	//		// of K
+	//		int index = it - v.begin();
+	//		return index;
+	//	}
+	//	else {
+	//		// If the element is not
+	//		// present in the vector
+	//		return -1;
+	//	}
+	//}
+
+
+	//Graph reverseGraph(Graph G)
+	//{
+	//	Graph g;
+	//	for (int i = 0; i < G.vertices.size(); i++)
+	//	{
+	//		list<Node>::iterator it;
+	//		for (it = G.vertices.at(i).adjlist.begin(); it != G.vertices.at(i).adjlist.end(); it++)
+	//		{
+	//			int j = getIndex(g.vertices, *it);
+	//			g.vertices.at(j).adjlist.push_back(*it);
+	//			
+
+	//		}
+	//		
+	//	}
+	//}
+
+	//void DFSUtil(int vv, vector<bool>& visited, stack<Node>& s)
+	//{
+	//	Node temp;
+	//	Node v = retNode(vv);
+	//	if (v.getNodeid() != -1) {
+	//		//stack<Node> s;
+	//		s.push(v);
+
+	//		temp = s.top();
+
+	//		if (visited[temp.getNodeid()] == false)
+	//		{
+	//			//cout << temp.getNodeid() << " ";
+	//			//visited.push_back(temp);
+	//			visited[temp.getNodeid()] = true;
+	//		}
+
+	//		for (list<Node>::iterator it = temp.adjlist.begin();it != temp.adjlist.end(); ++it)
+	//		{
+	//			if (visited[(*it).getNodeid()] == false)
+	//			{
+	//				v = retNode((*it).getNodeid());
+	//				s.push(v);
+	//			}
+
+	//		}
+
+	//	}
+	//}
+
+void DFSUtil(int vv, vector<bool>& visited, stack<Node>& S)
+{
+	Node temp;
+	Node v = retNode(vv);
+	stack<Node>s;
+	if (v.getNodeid() != -1) {
+		S.push(v);
 		s.push(v);
-		while (!s.empty())
-		{
-		    temp=s.top();
+		while (!s.empty()) {
+			temp = s.top();
 			s.pop();
-
-			/*for (int i = 0; i < visited.size(); i++)
+			if (visited[temp.getNodeid()] == false)
 			{
-				if (visited.at(i) == temp)
-				{
-					found = true;
-					break;
-				}
-
-			}*/
-
-			if (visited[temp.getNodeid()]==false)
-			{
-				cout << temp.getNodeid() << " ";
+				//cout << temp.getNodeid() << " ";
 				//visited.push_back(temp);
 				visited[temp.getNodeid()] = true;
 			}
-			
-			for (list<Node>::iterator it=temp.adjlist.begin();it!=temp.adjlist.end(); ++it)
+
+			for (list<Node>::iterator it = temp.adjlist.begin();it != temp.adjlist.end(); ++it)
 			{
 				if (visited[(*it).getNodeid()] == false)
 				{
 					v = retNode((*it).getNodeid());
 					s.push(v);
+					S.push(v);
 				}
-			
+
+			}
+
+		}
+	}
+}
+
+
+	void DFS_without_push(int vv, vector<bool>& visited)
+	{
+		Node temp;
+		Node v = retNode(vv);
+		stack<Node> S;
+		S.push(v);
+		while (!S.empty()) {
+			temp = S.top();
+			S.pop();
+			if (visited[temp.getNodeid()] == false)
+			{
+				cout << temp.getNodeid() << " ";
+				count++;
+				//visited.push_back(temp);
+				visited[temp.getNodeid()] = true;
+			}
+
+			for (list<Node>::iterator it = temp.adjlist.begin();it != temp.adjlist.end(); ++it)
+			{
+				if (visited[(*it).getNodeid()] == false)
+				{
+					v = retNode((*it).getNodeid());
+					S.push(v);
+				}
+
 			}
 		}
 
 	}
 
-	void DFS()
+	void DFS(stack<Node>&Stack, vector<bool> &visited )
 	{
-		vector<bool>visited(891836, false);
+		//int length = vertices.size();
+		//vector<bool>visited(length, false);
 		for (int i = 0; i < vertices.size(); i++)
 		{
 			if (!visited[i])
 			{
-				DFSUtil(i, visited);
+				DFSUtil(i, visited, Stack);
 			}
 		}
 	}
 
-	Graph reverseGraph(Graph G)
+
+	int LargestSCC(Graph reverse)
 	{
-		Graph g;
-		for (int i = 0; i < G.vertices.size(); i++)
+		stack<Node> s;
+		int max=0;
+		Node temp;
+		int length = vertices.size();
+		vector<bool> visited(length, false);
+		DFS(s, visited);
+		visited.assign(length, false);
+		while (!s.empty())
 		{
-			list<Node>::iterator it;
-			
+			temp = s.top();
+			s.pop();
+
+			if (visited[temp.getNodeid()] == false)
+			{
+				reverse.DFS_without_push(temp.getNodeid(), visited);
+				cout << endl;
+				if (count > max)
+				{
+					max = count;
+				}
+				count = 0;
+			}
+			count = 0;
 		}
+		return max;
 	}
 };
+int Graph::count = 0;
 
 //// C++ Implementation of Kosaraju's algorithm to print all SCCs
 //#include <iostream>

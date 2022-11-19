@@ -1,0 +1,4 @@
+g++ -O2 -std=c++11 -Wall "-Wl,--stack=268435456" Untitled1.cpp -o a.exe
+
+in windows:
+g++ -O2 -std=c++11 -Wall -Wl,--stack=268435456 a.cpp -o a.exe

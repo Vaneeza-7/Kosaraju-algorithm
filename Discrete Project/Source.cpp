@@ -9,35 +9,32 @@ using namespace std;
 
 int main()
 {
-	Graph g;
-	//int size=0;
-	// Create a graph given in the above diagram
-	//fstream input;
-	//	string v1, v2;
-	//	int node1, node2;
-	//	input.open("data.txt");
-	//	while (input >> v1 >> v2)
-	//	{
-	//		node1 = stoi(v1);
-	//		node2 = stoi(v2);
-	//		//cout << node1 << " " << node2 << endl;
-	//		g.addEdge(node1, node2);
+	Graph g, rev_g;
 
-	//	}
-	//    input.close();
-	/*g.addEdge(0, 1);
-	g.addEdge(0, 2);
-	g.addEdge(1, 2);
-	g.addEdge(2, 3);
-	g.addEdge(2, 0);
-	g.addEdge(3, 3);
-	*///g.addEdge(1, 3);
+	fstream input;
+		string v1, v2;
+		int node1, node2;
+		input.open("data3.txt");
+		while (input >> v1 >> v2)
+		{
+			node1 = stoi(v1);
+			node2 = stoi(v2);
+			//cout << node1 << " " << node2 << endl;
+			g.addEdge(node1, node2);
+			rev_g.addEdge(node2, node1);
+		}
+	    input.close();
 
-	cout << "Following are strongly connected components in "
+
+	cout << "Size of largest strongly connected components in "
 		"given graph \n";
-	g.printGraph();
-	g.DFS();
-	//g.printSCCs();
-
+	//g.printGraph();
+	//cout << "DFS is ";
+	//g.DFS();
+	//rev_g.printGraph();
+	//cout << "DFS is ";
+	//rev_g.DFS();
+	int size = g.LargestSCC(rev_g);
+	cout << size;
 	return 0;
 }
