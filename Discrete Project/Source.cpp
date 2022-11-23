@@ -25,16 +25,8 @@ int main()
 		}
 	    input.close();
 
-
-	cout << "Size of largest strongly connected components in "
-		"given graph \n";
-	//g.printGraph();
-	//cout << "DFS is ";
-	//g.DFS();
-	//rev_g.printGraph();
-	//cout << "DFS is ";
-	//rev_g.DFS();
 	int size = g.LargestSCC(rev_g);
-	cout << size;
+	cout << "Size of largest strongly connected components in "
+		"given graph is "<<size<<endl;
 	return 0;
 }
